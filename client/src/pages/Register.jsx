@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock } from 'lucide-react';
+import { User, Mail, Lock, Sun, Moon } from 'lucide-react';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [darkMode, setDarkMode] = useState(true);
   const navigate = useNavigate();
+
+  const toggleTheme = () => setDarkMode(!darkMode);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -25,21 +28,56 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black px-4 py-12">
-      <div className="bg-gray-800 shadow-2xl rounded-xl p-8 max-w-md w-full text-white">
-        <div className="text-center mb-6">
-          <h2 className="text-3xl font-extrabold">Create an Account</h2>
-          <p className="text-sm text-gray-400 mt-2">
-            Already registered?
-            <Link to="/login" className="text-indigo-400 font-semibold hover:underline ml-1">
+    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors duration-500 ${
+      darkMode
+        ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700"
+        : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200"
+    }`}>
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-6">
+        <button
+          onClick={toggleTheme}
+          className={`p-2 rounded-full transition ${
+            darkMode
+              ? "bg-white/20 hover:bg-white/30"
+              : "bg-black/10 hover:bg-black/20"
+          }`}
+        >
+          {darkMode ? <Sun size={20} /> : <Moon size={20} className="text-gray-800" />}
+        </button>
+      </div>
+
+      <div className={`rounded-2xl p-8 max-w-md w-full shadow-2xl transition-all duration-300 ${
+        darkMode
+          ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700/50"
+          : "bg-white/90 backdrop-blur-sm border border-gray-200"
+      }`}>
+        <div className="text-center mb-8">
+          <h2 className={`text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r ${
+            darkMode ? "from-teal-400 to-blue-500" : "from-teal-500 to-blue-600"
+          }`}>
+            Create Account
+          </h2>
+          <p className={`text-sm ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}>
+            Already registered?{' '}
+            <Link 
+              to="/login" 
+              className={`font-medium hover:underline ${
+                darkMode ? "text-teal-400" : "text-teal-600"
+              }`}
+            >
               Sign in
             </Link>
           </p>
         </div>
 
-        <form onSubmit={handleRegister} className="space-y-5">
+        <form onSubmit={handleRegister} className="space-y-6">
           <div className="relative">
-            <User className="absolute left-3 top-3 text-gray-400" size={20} />
+            <User className={`absolute left-3 top-3 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`} size={20} />
             <input
               type="text"
               id="name"
@@ -47,12 +85,18 @@ const Register = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Full Name"
-              className="pl-10 pr-4 py-2 w-full bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              className={`pl-10 pr-4 py-3 w-full rounded-lg focus:outline-none focus:ring-2 text-sm ${
+                darkMode
+                  ? "bg-gray-700/80 border-gray-600 focus:ring-teal-500 text-white"
+                  : "bg-gray-100 border-gray-300 focus:ring-teal-400 text-gray-900"
+              }`}
             />
           </div>
 
           <div className="relative">
-            <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Mail className={`absolute left-3 top-3 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`} size={20} />
             <input
               type="email"
               id="email"
@@ -60,12 +104,18 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="pl-10 pr-4 py-2 w-full bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              className={`pl-10 pr-4 py-3 w-full rounded-lg focus:outline-none focus:ring-2 text-sm ${
+                darkMode
+                  ? "bg-gray-700/80 border-gray-600 focus:ring-teal-500 text-white"
+                  : "bg-gray-100 border-gray-300 focus:ring-teal-400 text-gray-900"
+              }`}
             />
           </div>
 
           <div className="relative">
-            <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Lock className={`absolute left-3 top-3 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`} size={20} />
             <input
               type="password"
               id="password"
@@ -73,7 +123,11 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="pl-10 pr-4 py-2 w-full bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              className={`pl-10 pr-4 py-3 w-full rounded-lg focus:outline-none focus:ring-2 text-sm ${
+                darkMode
+                  ? "bg-gray-700/80 border-gray-600 focus:ring-teal-500 text-white"
+                  : "bg-gray-100 border-gray-300 focus:ring-teal-400 text-gray-900"
+              }`}
             />
           </div>
 
@@ -82,11 +136,19 @@ const Register = () => {
               type="checkbox"
               id="terms"
               required
-              className="h-4 w-4 text-indigo-600 bg-gray-700 border-gray-600 focus:ring-indigo-500 rounded"
+              className={`h-4 w-4 rounded focus:ring-2 ${
+                darkMode
+                  ? "text-teal-500 bg-gray-700 border-gray-600 focus:ring-teal-500"
+                  : "text-teal-500 bg-gray-200 border-gray-300 focus:ring-teal-400"
+              }`}
             />
-            <label htmlFor="terms" className="ml-2 text-gray-300">
+            <label htmlFor="terms" className={`ml-2 ${
+              darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
               I agree to the{' '}
-              <a href="#" className="text-indigo-400 hover:underline">
+              <a href="#" className={`hover:underline ${
+                darkMode ? "text-teal-400" : "text-teal-600"
+              }`}>
                 Terms and Conditions
               </a>
             </label>
@@ -94,7 +156,11 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 transition py-2 text-white rounded-md font-medium text-sm"
+            className={`w-full py-3 rounded-lg font-medium text-sm transition-all duration-300 shadow-lg ${
+              darkMode
+                ? "bg-teal-600 hover:bg-teal-500 text-white"
+                : "bg-teal-500 hover:bg-teal-400 text-white"
+            }`}
           >
             Register
           </button>

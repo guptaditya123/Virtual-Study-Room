@@ -68,21 +68,7 @@ const LandingPage = () => {
       </div>
 
       {/* Hero Illustration */}
-      <div className="max-w-4xl mx-auto mb-20">
-        <div className={`rounded-2xl p-1 shadow-2xl ${
-          darkMode 
-            ? "bg-gradient-to-r from-teal-500/20 via-blue-500/20 to-purple-500/20" 
-            : "bg-gradient-to-r from-teal-100 via-blue-100 to-purple-100"
-        }`}>
-          <div className={`rounded-xl overflow-hidden ${
-            darkMode ? "bg-gray-800" : "bg-white"
-          }`}>
-            <div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-              <p className="text-lg text-gray-400">Study Room Preview</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
       {/* Features */}
       <section className="max-w-6xl mx-auto">
