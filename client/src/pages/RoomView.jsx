@@ -4,8 +4,14 @@ import Pomodoro from "../components/Pomodoro";
 import WhiteBoard from "../components/WhiteBoard";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
+import { SOCKET_URL } from '../Config';
 
-const socket = io("http://localhost:4000");
+const socket = io(SOCKET_URL, {
+  withCredentials: true,
+  autoConnect: true, // Optional: automatically connect
+  reconnectionAttempts: 5, // Optional: retry logic
+  reconnectionDelay: 1000 // Optional: 1 second between retries
+});
 
 const RoomView = () => {
   const { id } = useParams();
@@ -14,7 +20,7 @@ const RoomView = () => {
   useEffect(() => {
     const fetchTopic = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/rooms/${id}`);
+        const res = await fetch(`/api/rooms/${id}`);
         const data = await res.json();
         setTopic(data.topic || "Untitled Room");
       } catch (error) {

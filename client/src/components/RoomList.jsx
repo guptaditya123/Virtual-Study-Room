@@ -14,7 +14,7 @@ const RoomList = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/rooms/getRooms");
+        const res = await axios.get("/api/rooms/getRooms");
         setRooms(res.data);
       } catch (err) {
         console.error("Failed to load rooms", err);

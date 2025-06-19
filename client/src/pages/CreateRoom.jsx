@@ -20,7 +20,7 @@ function CreateRoom() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:4000/api/rooms/create', {
+      const res = await axios.post('/api/rooms/create', {
         name,
         topic,
         isPrivate,

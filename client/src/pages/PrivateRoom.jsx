@@ -11,7 +11,7 @@ function PrivateRoom() {
   const handleJoin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get(`http://localhost:5000/api/rooms/${roomId}`);
+      const res = await axios.get(`/api/rooms/${roomId}`);
       if (res.data.isPrivate) {
         navigate(`/room/${roomId}`);
       } else {
