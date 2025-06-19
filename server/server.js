@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 
 const db = require('./config/db');
 db();
@@ -19,26 +20,37 @@ app.use(cors({
 app.use(express.json());
 
 // Serve static files from Vite build
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
-const server = http.createServer(app);
-const setupSocket = require("./socket");
-setupSocket(server);
+const clientPath = path.join(__dirname, '../client/dist');
+if (fs.existsSync(clientPath)) {
+  app.use(express.static(clientPath));
+} else {
+  console.warn("⚠️  Vite build folder not found at", clientPath);
+}
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 
-app.use('/api/rooms', roomRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/rooms', roomRoutes);
 
-// Serve index.html for React routes
+// Fallback for SPA (must come *after* all other routes)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  const indexPath = path.join(clientPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(500).send('Build not found');
+  }
 });
 
+// Socket setup
+const server = http.createServer(app);
+const setupSocket = require('./socket');
+setupSocket(server);
+
+// Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`Server started at port ${PORT}`);
-  console.log(`Socket.io ready for connections`);
+  console.log(`✅ Server started on port ${PORT}`);
 });
