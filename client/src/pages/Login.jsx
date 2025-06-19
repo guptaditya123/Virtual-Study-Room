@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", {
+      const res = await axios.post("http://localhost:4000/api/auth/login", {
         email,
         password,
       });
@@ -122,7 +122,7 @@ const Login = () => {
               size={20}
             />
             <input
-              type="password"
+              type="text"
               id="password"
               required
               value={password}

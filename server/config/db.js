@@ -2,15 +2,13 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 dotenv.config();
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("db connected successfully");
+    await mongoose.connect(process.env.DB_URL); // No need for options in Mongoose v6+
+    console.log("✅ MongoDB connected successfully");
   } catch (err) {
-    console.log(`error${err}`);
+    console.error("❌ MongoDB connection error:", err.message);
   }
 };
 

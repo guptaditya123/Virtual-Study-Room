@@ -10,7 +10,6 @@ exports.newRooms = async (req, res) => {
       name,
       topic,
       isPrivate,
-      userId,
       createdBy: userId,
       members: [userId],
     });
@@ -25,7 +24,7 @@ exports.newRooms = async (req, res) => {
 // Get all public rooms
 exports.existingRoom = async (req, res) => {
   try {
-    const rooms = await Room.find({ isPrivate: false });
+    const rooms = await Room.find({isPrivate: false});
     res.json(rooms);
   } catch (err) {
     res.status(500).json({ msg: "Failed to fetch rooms" });
@@ -69,5 +68,18 @@ exports.deleteRoom = async (req, res) => {
   } catch (err) {
     console.error("Error deleting room:", err);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+// for private rooms
+// Get private rooms created by a specific user
+exports.privateRooms = async (req, res) => {
+  const userId = req.params._id;
+  try {
+    const rooms = await Room.find({ isPrivate: true, createdBy: userId });
+    res.json(rooms);
+  } catch (err) {
+    console.error("Error fetching private rooms:", err);
+    res.status(500).json({ msg: "Failed to fetch private rooms" });
   }
 };

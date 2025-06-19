@@ -38,8 +38,22 @@ const Header = () => {
               Virtual Study Room
             </h1>
           </div>
-          <Link to='/dashboard' className='text-white'>Dashboard</Link>
-          <Link to='/privateRoom' className='text-white'>Join Private Room </Link>
+
+          {/* Navigation Links */}
+          <div className="flex items-center space-x-6">
+            <Link 
+              to="/dashboard" 
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              Dashboard
+            </Link>
+            <Link 
+              to="/privateRoom" 
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              Join Private Room
+            </Link>
+          </div>
 
           {/* User Controls */}
           {user && (
