@@ -8,7 +8,7 @@ router.post('/create', newRooms);
 
 // Get all existing rooms
 router.get('/getRooms', existingRoom);
-router.get("/:id",getRoomById );
+router.get("/privateRooms/:id",getRoomById );
 router.delete('/delete/:id', deleteRoom)
 
 // ✅ Export the router
