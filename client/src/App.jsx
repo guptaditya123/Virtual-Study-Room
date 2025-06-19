@@ -6,6 +6,7 @@ import CreateRoom from './pages/CreateRoom';
 import RoomView from './pages/RoomView';
 import LandingPage from './pages/LandingPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import PrivateRoom from './pages/PrivateRoom';
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
-        <Route path="/create-room" element={<CreateRoom />} />
-        <Route path="/room/:id" element={<RoomView />} />
+        <Route path="/create-room" element={<ProtectedRoute><CreateRoom /></ProtectedRoute>} />
+        <Route path="/privateRoom" element={<PrivateRoom />} />
+        <Route path="/room/:id" element={<ProtectedRoute> <RoomView/> </ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );

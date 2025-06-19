@@ -34,6 +34,7 @@ const RoomView = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-red-500">
             Study Room: <span className="text-indigo-400">{topic}</span>
           </h1>
+          <p className="text-lg text-indigo-400 mt-1">Room Id:{id}</p>
           <p className="text-gray-400 text-sm mt-1">
             Collaborate in real-time with your team
           </p>

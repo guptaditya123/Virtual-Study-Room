@@ -1,36 +1,44 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, Sun, Moon } from 'lucide-react';
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import { Mail, Lock, Sun, Moon } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [darkMode, setDarkMode] = useState(true);
   const navigate = useNavigate();
+
+  const { setUser } = useContext(AuthContext); // ← get setUser from context
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login', {
+      const res = await axios.post("http://localhost:4000/api/auth/login", {
         email,
         password,
       });
-      localStorage.setItem('token', res.data.token);
+      // Save token and user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      setUser(res.data.user); // ← update context ✅   
       navigate('/dashboard');
     } catch (err) {
-      alert('Login failed: ' + (err.response?.data?.message || err.message));
+      alert("Login failed: " + (err.response?.data?.message || err.message));
     }
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors duration-500 ${
-      darkMode
-        ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700"
-        : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200"
-    }`}>
+    <div
+      className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors duration-500 ${
+        darkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700"
+          : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200"
+      }`}
+    >
       {/* Theme Toggle */}
       <div className="absolute top-4 right-6">
         <button
@@ -41,27 +49,39 @@ const Login = () => {
               : "bg-black/10 hover:bg-black/20"
           }`}
         >
-          {darkMode ? <Sun size={20} /> : <Moon size={20} className="text-gray-800" />}
+          {darkMode ? (
+            <Sun size={20} />
+          ) : (
+            <Moon size={20} className="text-gray-800" />
+          )}
         </button>
       </div>
 
-      <div className={`rounded-2xl p-8 max-w-md w-full shadow-2xl transition-all duration-300 ${
-        darkMode
-          ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700/50"
-          : "bg-white/90 backdrop-blur-sm border border-gray-200"
-      }`}>
+      <div
+        className={`rounded-2xl p-8 max-w-md w-full shadow-2xl transition-all duration-300 ${
+          darkMode
+            ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700/50"
+            : "bg-white/90 backdrop-blur-sm border border-gray-200"
+        }`}
+      >
         <div className="text-center mb-8">
-          <h2 className={`text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r ${
-            darkMode ? "from-teal-400 to-blue-500" : "from-teal-500 to-blue-600"
-          }`}>
+          <h2
+            className={`text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r ${
+              darkMode
+                ? "from-teal-400 to-blue-500"
+                : "from-teal-500 to-blue-600"
+            }`}
+          >
             Welcome Back
           </h2>
-          <p className={`text-sm ${
-            darkMode ? "text-gray-400" : "text-gray-600"
-          }`}>
-            Don't have an account?{' '}
-            <Link 
-              to="/register" 
+          <p
+            className={`text-sm ${
+              darkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Don't have an account?{" "}
+            <Link
+              to="/register"
               className={`font-medium hover:underline ${
                 darkMode ? "text-teal-400" : "text-teal-600"
               }`}
@@ -73,9 +93,12 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="relative">
-            <Mail className={`absolute left-3 top-3 ${
-              darkMode ? "text-gray-400" : "text-gray-500"
-            }`} size={20} />
+            <Mail
+              className={`absolute left-3 top-3 ${
+                darkMode ? "text-gray-400" : "text-gray-500"
+              }`}
+              size={20}
+            />
             <input
               type="email"
               id="email"
@@ -92,9 +115,12 @@ const Login = () => {
           </div>
 
           <div className="relative">
-            <Lock className={`absolute left-3 top-3 ${
-              darkMode ? "text-gray-400" : "text-gray-500"
-            }`} size={20} />
+            <Lock
+              className={`absolute left-3 top-3 ${
+                darkMode ? "text-gray-400" : "text-gray-500"
+              }`}
+              size={20}
+            />
             <input
               type="password"
               id="password"
@@ -121,12 +147,9 @@ const Login = () => {
             Sign In
           </button>
         </form>
-
-       
-       
       </div>
     </div>
   );
 };
 
- export default Login;
+export default Login;

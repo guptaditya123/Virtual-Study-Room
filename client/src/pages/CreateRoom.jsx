@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Sun, Moon } from 'lucide-react';
+import Header from '../components/Header';
 
 function CreateRoom() {
   const [name, setName] = useState('');
@@ -39,13 +40,15 @@ function CreateRoom() {
   };
 
   return (
+    <>
+    <Header />
     <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors duration-500 ${
       darkMode
         ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700"
         : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200"
     }`}>
       {/* Theme Toggle */}
-      <div className="absolute top-4 right-6">
+      <div className="absolute top-20 right-12">
         <button
           onClick={toggleTheme}
           className={`p-2 rounded-full transition ${
@@ -54,7 +57,7 @@ function CreateRoom() {
               : "bg-black/10 hover:bg-black/20"
           }`}
         >
-          {darkMode ? <Sun size={20} /> : <Moon size={20} className="text-gray-800" />}
+          {darkMode ? <Sun size={25} /> : <Moon size={25} className="text-gray-800" />}
         </button>
       </div>
 
@@ -152,6 +155,7 @@ function CreateRoom() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 
