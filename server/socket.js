@@ -31,8 +31,12 @@ function setupSocket(server) {
       });
     });
 
-    socket.on("send_message", ({ roomId, username, message, time }) => {
-      const data = { username, message, time };
+    socket.on("send_message", ({ roomId, message, time }) => {
+      const data = {
+        username: socket.username, // Use the stored username
+        message,
+        time,
+      };
       io.to(roomId).emit("receive_message", data);
     });
 
