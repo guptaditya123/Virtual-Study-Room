@@ -17,7 +17,7 @@ const RoomView = () => {
  useEffect(() => {
   const fetchTopic = async () => {
     try {
-      const res = await api.get(`/api/rooms/${id}`);
+      const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com//api/rooms/${id}`);
       setTopic(res.data.topic || "Untitled Room");
     } catch (error) {
       console.error("Failed to load room topic", error);

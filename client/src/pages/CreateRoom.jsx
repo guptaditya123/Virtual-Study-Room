@@ -20,7 +20,7 @@ function CreateRoom() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post('/api/rooms/create', {
+      const res = await axios.post('https://virtual-study-room-gwjx.onrender.com/api/rooms/create', {
         name,
         topic,
         isPrivate,

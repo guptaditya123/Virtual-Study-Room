@@ -22,7 +22,7 @@ function PrivateRoom() {
   console.log("Fetching private rooms for user:", user);
     const fetchRooms = async () => {
       try {
-        const res = await api.get(`/api/rooms/privateRooms/${user._id}`, {
+        const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com/api/rooms/privateRooms/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -43,7 +43,7 @@ function PrivateRoom() {
   const handleDirectJoin = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.get(`api/rooms/${roomId}`, {
+      const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com/api/rooms/${roomId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

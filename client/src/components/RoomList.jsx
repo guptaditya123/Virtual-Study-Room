@@ -15,7 +15,7 @@ const RoomList = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await api.get("/api/rooms/getRooms");
+        const res = await axios.get("https://virtual-study-room-gwjx.onrender.com/api/rooms/getRooms");
 
         // ✅ Check if data is an array
         if (Array.isArray(res.data)) {
