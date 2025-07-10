@@ -13,23 +13,37 @@ const Register = () => {
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://virtual-study-room-gwjx.onrender.com/api/auth/register", {
+ const handleRegister = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "https://virtual-study-room-gwjx.onrender.com/api/auth/register",
+      {
         name,
         email,
         password,
-      });
-      localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
-    } catch (err) {
-      alert(
-        "Registration failed: " + (err.response?.data?.msg || err.message)
-      );
-    }
-  };
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // ✅ Important for proper request format
+        },
+        withCredentials: true, // ✅ Only if your backend sets cookies (optional)
+      }
+    );
+
+    // Save token and redirect
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user)); // ✅ Also save user if returned
+    setUser(res.data.user); // Optional: if using context
+    navigate("/dashboard");
+  } catch (err) {
+    console.error(err);
+    alert(
+      "Registration failed: " + (err.response?.data?.message || err.message)
+    );
+  }
+};
+
 
   return (
     <div

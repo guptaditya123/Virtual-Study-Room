@@ -16,28 +16,34 @@ const Login = () => {
   const toggleTheme = () => setDarkMode(!darkMode);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://virtual-study-room-gwjx.onrender.com/api/auth/login", // 👈 full backend URL
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true, // optional, in case cookies/sessions are used
-        }
-      );
+  e.preventDefault();
 
-      // Save token and user
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      setUser(res.data.user);
-      navigate("/dashboard");
-    } catch (err) {
-      alert("Login failed: " + (err.response?.data?.msg || err.message));
-    }
-  };
+  try {
+    const res = await axios.post(
+      "https://virtual-study-room-gwjx.onrender.com/api/auth/login", // ✅ Full backend URL
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true, // ✅ if backend uses cookies/sessions
+      }
+    );
+
+    // ✅ Save token and user
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    setUser(res.data.user);
+    navigate("/dashboard");
+  } catch (err) {
+    console.error(err);
+    alert("Login failed: " + (err.response?.data?.message || err.message));
+  }
+};
+
 
   return (
     <div
