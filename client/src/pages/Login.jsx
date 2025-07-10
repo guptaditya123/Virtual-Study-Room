@@ -123,7 +123,7 @@ const Login = () => {
               size={20}
             />
             <input
-              type="text"
+              type="password"
               id="password"
               required
               value={password}
