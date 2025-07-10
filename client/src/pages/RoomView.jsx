@@ -5,27 +5,29 @@ import WhiteBoard from "../components/WhiteBoard";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import Header from "../components/Header";
+import api from "../api"; // add at top
 
-const socket = io("http://localhost:4000");
+
+const socket = io(import.meta.env.VITE_API_URL);
 
 const RoomView = () => {
   const { id } = useParams();
   const [topic, setTopic] = useState("Loading...");
 
-  useEffect(() => {
-    const fetchTopic = async () => {
-      try {
-        const res = await fetch(`http://localhost:4000/api/rooms/${id}`);
-        const data = await res.json();
-        setTopic(data.topic || "Untitled Room");
-      } catch (error) {
-        console.error("Failed to load room topic", error);
-        setTopic("Unknown Room");
-      }
-    };
+ useEffect(() => {
+  const fetchTopic = async () => {
+    try {
+      const res = await api.get(`/api/rooms/${id}`);
+      setTopic(res.data.topic || "Untitled Room");
+    } catch (error) {
+      console.error("Failed to load room topic", error);
+      setTopic("Unknown Room");
+    }
+  };
 
-    fetchTopic();
-  }, [id]);
+  fetchTopic();
+}, [id]);
+
 
   return (
     <>
@@ -59,7 +61,7 @@ const RoomView = () => {
             {/* Sidebar */}
             <div className="lg:col-span-1 flex flex-col space-y-4">
               {/* Timer */}
-              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-gray-700/50 w-full">
+              <div >
                 <h2 className="text-lg font-semibold mb-2 flex items-center text-white">
                   <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2 animate-pulse"></span>
                   Focus Timer
@@ -68,7 +70,7 @@ const RoomView = () => {
               </div>
 
               {/* Chat */}
-              <div className="flex-1 bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-gray-700/50 overflow-auto max-h-[400px]">
+              <div >
                 <ChatBox socket={socket} roomId={id} />
               </div>
             </div>

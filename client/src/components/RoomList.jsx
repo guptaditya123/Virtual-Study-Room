@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Trash2, Loader2 } from "lucide-react";
+import api from "../api"; // Use shared API instance
 
 const RoomList = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const RoomList = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/rooms/getRooms");
+        const res = await api.get("api/rooms/getRooms");
         setRooms(res.data);
       } catch (err) {
         console.error("Failed to load rooms", err);
@@ -36,7 +37,7 @@ const RoomList = () => {
     
     try {
       setDeletingId(roomToDelete);
-      await axios.delete(`http://localhost:4000/api/rooms/delete/${roomToDelete}`, {
+      await api.delete(`api/rooms/delete/${roomToDelete}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

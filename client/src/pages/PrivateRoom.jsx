@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
+import api from "../api"; // add at top
 import { AuthContext } from "../context/AuthContext";
 
 function PrivateRoom() {
@@ -21,7 +22,7 @@ function PrivateRoom() {
   console.log("Fetching private rooms for user:", user);
     const fetchRooms = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/api/rooms/privateRooms/${user._id}`, {
+        const res = await api.get(`api/rooms/privateRooms/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -42,7 +43,7 @@ function PrivateRoom() {
   const handleDirectJoin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get(`http://localhost:4000/api/rooms/${roomId}`, {
+      const res = await api.get(`api/rooms/${roomId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

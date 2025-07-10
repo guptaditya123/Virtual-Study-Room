@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import api from "../api"; // add at top
 import { useNavigate, Link } from "react-router-dom";
 import { Mail, Lock, Sun, Moon } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
@@ -17,7 +18,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
+      const res = await api.post("api/auth/login", {
         email,
         password,
       });
