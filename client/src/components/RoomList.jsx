@@ -15,7 +15,7 @@ const RoomList = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await api.get("api/rooms/getRooms");
+        const res = await api.get("/api/rooms/getRooms");
         setRooms(res.data);
       } catch (err) {
         console.error("Failed to load rooms", err);

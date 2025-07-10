@@ -22,7 +22,7 @@ function PrivateRoom() {
   console.log("Fetching private rooms for user:", user);
     const fetchRooms = async () => {
       try {
-        const res = await api.get(`api/rooms/privateRooms/${user._id}`, {
+        const res = await api.get(`/api/rooms/privateRooms/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
