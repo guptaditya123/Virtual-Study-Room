@@ -11,7 +11,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://virtual-study-room-azy3yw0a5-guptaditya81-gmailcoms-projects.vercel.app",
-  'https://virtual-study-room-3qj0a89am-guptaditya81-gmailcoms-projects.vercel.app' // ✅ Add this
+  'https://virtual-study-room-ad9137uj6-guptaditya81-gmailcoms-projects.vercel.app/' // ✅ Add this
 ];
 
 app.use(
