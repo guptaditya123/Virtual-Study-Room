@@ -16,7 +16,8 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/api/auth/register", {
+      const res = await axios.post(
+        "https://virtual-study-room-gwjx.onrender.com/api/auth/register", {
         name,
         email,
         password,

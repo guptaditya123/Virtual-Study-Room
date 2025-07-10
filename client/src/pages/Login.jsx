@@ -18,17 +18,24 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post(`/api/auth/login`, {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://virtual-study-room-gwjx.onrender.com/api/auth/login", // 👈 full backend URL
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // optional, in case cookies/sessions are used
+        }
+      );
+
       // Save token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      setUser(res.data.user); // ← update context ✅   
-      navigate('/dashboard');
+      setUser(res.data.user);
+      navigate("/dashboard");
     } catch (err) {
-      alert("Login failed: " + (err.response?.data?.message || err.message));
+      alert("Login failed: " + (err.response?.data?.msg || err.message));
     }
   };
 
