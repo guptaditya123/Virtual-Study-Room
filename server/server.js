@@ -22,6 +22,7 @@ app.use(cors({
     }
   },
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 app.use(express.json());
 
@@ -34,9 +35,13 @@ setupSocket(server); // Now server is defined
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+console.log("Auth routes loaded"); // Add this
+
 const roomRoutes = require('./routes/roomRoutes');
 
 app.use('/api/rooms', roomRoutes);
+
+console.log("Registering /api/auth routes...");
 app.use('/api/auth', authRoutes);
 
 // Start server
