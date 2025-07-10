@@ -9,7 +9,10 @@ const db = require('./config/db');
 db();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://virtual-study-room-pjc7duclz-guptaditya81-gmailcoms-projects.vercel.app", // your Vercel frontend
+  credentials: true
+}));
 app.use(express.json());
 
 // ✅ Create server from express app
