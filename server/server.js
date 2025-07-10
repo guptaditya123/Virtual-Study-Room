@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 dotenv.config();
-
 const express = require('express');
 const cors = require('cors');
 const http = require('http'); // ✅ Required to create a raw server
@@ -9,9 +8,20 @@ const db = require('./config/db');
 db();
 
 const app = express();
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://virtual-study-room-azy3yw0a5-guptaditya81-gmailcoms-projects.vercel.app'
+];
+
 app.use(cors({
-  origin: "https://virtual-study-room-pjc7duclz-guptaditya81-gmailcoms-projects.vercel.app", // your Vercel frontend
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
 app.use(express.json());
 
