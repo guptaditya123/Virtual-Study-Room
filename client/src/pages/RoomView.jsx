@@ -14,7 +14,7 @@ const RoomView = () => {
   useEffect(() => {
     const fetchTopic = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/rooms/${id}`);
+        const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com/api/rooms/${id}`);
         console.log("Room data:", res.data);
         
         setTopic(res.data.topic || "Untitled Room");
