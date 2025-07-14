@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Sun, Moon } from 'lucide-react';
 import Header from '../components/Header';
 import api from '../api'; // ✅ Use shared API instance
+import axios from 'axios';
 
 function CreateRoom() {
   const [name, setName] = useState('');
@@ -20,7 +21,7 @@ function CreateRoom() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post('/rooms/create', {
+      const res = await axios.post('https://virtual-study-room-gwjx.onrender.com/api/rooms/create', {
         name,
         topic,
         isPrivate,
