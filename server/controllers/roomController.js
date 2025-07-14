@@ -54,22 +54,32 @@ exports.getRoomById = async (req, res) => {
 };
 
 // Delete room (no ownership check)
+// controllers/roomController.js
 exports.deleteRoom = async (req, res) => {
   const roomId = req.params.id;
-  
+  console.log("✅ DELETE endpoint hit with id:", roomId); // Debug log
+
   try {
-    const room = await Room.findByIdAndDelete(roomId);
-    
-    if (!room) {
+    // Check if the room exists before deleting
+    const existingRoom = await Room.findById(roomId);
+    console.log("🕵️ Room found in DB before delete?", existingRoom);
+
+    if (!existingRoom) {
+      console.warn("⚠️ Room not found in database");
       return res.status(404).json({ error: "Room not found" });
     }
-    
+
+    // Delete the room
+    await Room.findByIdAndDelete(roomId);
+    console.log("✅ Room deleted:", roomId);
+
     res.status(200).json({ message: "Room deleted successfully" });
   } catch (err) {
-    console.error("Error deleting room:", err);
+    console.error("❌ Error deleting room:", err.message || err);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // for private rooms
 // Get private rooms created by a specific user

@@ -39,7 +39,6 @@ const authRoutes = require("./routes/authRoutes");
 console.log("Auth routes loaded"); // Add this
 
 const roomRoutes = require("./routes/roomRoutes");
-
 app.use("/api/rooms", roomRoutes);
 
 console.log("Registering /api/auth routes...");

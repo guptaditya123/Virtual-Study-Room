@@ -22,9 +22,13 @@ router.get('/privateRooms/:_id', privateRooms);
 // Get a room by ID
 router.get('/:id', getRoomById);
 
-// Get a room by ID with authentication
+// Test route to check if server is running
+router.get('/test', (req, res) => {
+  res.send('Test route working');
+});
+
 
 // Delete a room
-router.delete('delete/:id', deleteRoom);
+router.delete('/delete/:id', deleteRoom);
 
 module.exports = router;

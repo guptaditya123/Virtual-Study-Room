@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { AuthContext } from "../context/AuthContext";
 import api from "../api";
+import axios from "axios";
 
 function PrivateRoom() {
   const { user } = useContext(AuthContext);
@@ -17,11 +18,14 @@ function PrivateRoom() {
 
     const fetchRooms = async () => {
       try {
-        const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com/api/rooms/privateRooms/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const res = await axios.get(
+          `https://virtual-study-room-gwjx.onrender.com/api/rooms/privateRooms/${user._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setMyPrivateRooms(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch rooms", err);
@@ -65,20 +69,26 @@ function PrivateRoom() {
   };
 
   const handleDeleteRoom = async (roomId) => {
-    if (!window.confirm("Are you sure you want to delete this room?")) return;
+  console.log("Attempting to delete room:", roomId); // 🪵 Log the ID you're trying to delete
 
-    try {
-      await api.delete(`/rooms/delete/${roomId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setMyPrivateRooms((prev) => prev.filter((room) => room._id !== roomId));
-    } catch (err) {
-      console.error("Failed to delete room:", err);
-      alert("Error deleting room. Try again.");
-    }
-  };
+  if (!window.confirm("Are you sure you want to delete this room?")) return;
+
+  try {
+    const res = await api.delete(`/rooms/delete/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    console.log("✅ Room deleted successfully:", res.data); // 🪵 Log success response
+
+    setMyPrivateRooms((prev) => prev.filter((room) => room._id !== roomId));
+  } catch (err) {
+    console.error("❌ Failed to delete room:", err.response?.data || err.message); // 🪵 Log error details
+    alert("Error deleting room. Try again.");
+  }
+};
+
 
   return (
     <>
@@ -91,7 +101,9 @@ function PrivateRoom() {
               Private Study Rooms
             </h1>
             <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
-              {user ? `Welcome, ${user.name || user.email.split("@")[0]}` : "Please login to access private rooms"}
+              {user
+                ? `Welcome, ${user.name || user.email.split("@")[0]}`
+                : "Please login to access private rooms"}
             </p>
           </div>
 
@@ -107,10 +119,17 @@ function PrivateRoom() {
             ) : myPrivateRooms.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-4">
                 {myPrivateRooms.map((room) => (
-                  <div key={room._id} className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow">
+                  <div
+                    key={room._id}
+                    className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow"
+                  >
                     <div className="mb-2">
-                      <h3 className="font-bold text-lg truncate">{room.name}</h3>
-                      <p className="text-sm text-gray-400 truncate">{room.topic}</p>
+                      <h3 className="font-bold text-lg truncate">
+                        {room.name}
+                      </h3>
+                      <p className="text-sm text-gray-400 truncate">
+                        {room.topic}
+                      </p>
                     </div>
                     <div className="flex flex-wrap items-center justify-between mt-4 gap-2">
                       <span className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded break-all">
@@ -141,16 +160,23 @@ function PrivateRoom() {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-400">You haven't created any private rooms yet.</p>
+              <p className="text-sm text-gray-400">
+                You haven't created any private rooms yet.
+              </p>
             )}
           </div>
 
           {/* Join by Room ID */}
           <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg p-6 sm:p-8 border border-gray-700/50">
-            <h2 className="text-lg sm:text-xl font-semibold mb-4">Join by Room ID</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-4">
+              Join by Room ID
+            </h2>
             <form onSubmit={handleDirectJoin} className="space-y-6">
               <div>
-                <label htmlFor="roomId" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="roomId"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Enter Private Room ID
                 </label>
                 <input
