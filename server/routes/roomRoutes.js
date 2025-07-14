@@ -7,9 +7,7 @@ const {
   getRoomById, 
   privateRooms, 
   deleteRoom,
-   // ⬅️ Optional for per-user filtering
 } = require('../controllers/roomController');
-
 // Create a new room
 router.post('/create', newRooms);
 
@@ -24,7 +22,9 @@ router.get('/privateRooms/:_id', privateRooms);
 // Get a room by ID
 router.get('/:id', getRoomById);
 
+// Get a room by ID with authentication
+
 // Delete a room
-router.delete('/delete/:id', deleteRoom);
+router.delete('delete/:id', deleteRoom);
 
 module.exports = router;

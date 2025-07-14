@@ -8,7 +8,7 @@ function setupSocket(server) {
     },
   });
 
-  const roomUsers = {}; // Track user socket IDs per room
+  const roomUsers = {};
 
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
@@ -23,17 +23,17 @@ function setupSocket(server) {
       }
       roomUsers[roomId].add(socket.id);
 
-      console.log(`${socket.username} joined room ${roomId}`);
+      console.log(`${username} joined room ${roomId}`);
 
-      // Notify users in the room about new count
       io.to(roomId).emit("room_user_count", {
         count: roomUsers[roomId].size,
       });
     });
 
-    socket.on("send_message", ({ roomId, message, time }) => {
+    socket.on("send_message", ({ roomId, username, message, time, id }) => {
       const data = {
-        username: socket.username, // Use the stored username
+        id, // ✅ include message ID for frontend rendering
+        username,
         message,
         time,
       };
@@ -50,11 +50,9 @@ function setupSocket(server) {
 
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
-
       const roomId = socket.roomId;
       if (roomId && roomUsers[roomId]) {
         roomUsers[roomId].delete(socket.id);
-
         if (roomUsers[roomId].size === 0) {
           delete roomUsers[roomId];
         } else {
