@@ -17,7 +17,7 @@ function PrivateRoom() {
 
     const fetchRooms = async () => {
       try {
-        const res = await api.get(`/api/rooms/privateRooms/${user._id}`, {
+        const res = await api.get(`/rooms/privateRooms/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -41,7 +41,7 @@ function PrivateRoom() {
     if (!roomId.trim()) return setError("Please enter a room ID.");
 
     try {
-      const res = await api.get(`/api/rooms/${roomId}`, {
+      const res = await api.get(`/rooms/${roomId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -68,7 +68,7 @@ function PrivateRoom() {
     if (!window.confirm("Are you sure you want to delete this room?")) return;
 
     try {
-      await api.delete(`/api/rooms/delete/${roomId}`, {
+      await api.delete(`/rooms/delete/${roomId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

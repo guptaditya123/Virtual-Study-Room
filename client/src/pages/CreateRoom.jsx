@@ -20,7 +20,7 @@ function CreateRoom() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post('/api/rooms/create', {
+      const res = await api.post('/rooms/create', {
         name,
         topic,
         isPrivate,

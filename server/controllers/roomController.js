@@ -9,7 +9,7 @@ exports.newRooms = async (req, res) => {
     const newRoom = new Room({
       name,
       topic,
-      isPrivate,
+      isPrivate,  
       createdBy: userId,
       members: [userId],
     });

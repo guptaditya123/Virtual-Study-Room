@@ -14,7 +14,7 @@ const RoomView = () => {
   useEffect(() => {
     const fetchTopic = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/rooms/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/rooms/${id}`);
         setTopic(res.data.topic || "Untitled Room");
       } catch (error) {
         console.error("Failed to load room topic", error);
