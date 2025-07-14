@@ -13,7 +13,9 @@ const Register = () => {
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
- const handleRegister = async (e) => {
+// ✅ No setUser import needed here
+
+const handleRegister = async (e) => {
   e.preventDefault();
   try {
     const res = await axios.post(
@@ -25,24 +27,23 @@ const Register = () => {
       },
       {
         headers: {
-          "Content-Type": "application/json", // ✅ Important for proper request format
+          "Content-Type": "application/json",
         },
-        withCredentials: true, // ✅ Only if your backend sets cookies (optional)
+        withCredentials: true,
       }
     );
 
-    // Save token and redirect
     localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user)); // ✅ Also save user if returned
-    setUser(res.data.user); // Optional: if using context
+    localStorage.setItem("user", JSON.stringify(res.data.user));
     navigate("/dashboard");
   } catch (err) {
     console.error(err);
     alert(
-      "Registration failed: " + (err.response?.data?.message || err.message)
+      "Registration failed: " + (err.response?.data?.msg || err.message)
     );
   }
 };
+
 
 
   return (
