@@ -17,7 +17,7 @@ function PrivateRoom() {
 
     const fetchRooms = async () => {
       try {
-        const res = await api.get(`/rooms/privateRooms/${user._id}`, {
+        const res = await axios.get(`https://virtual-study-room-gwjx.onrender.com/api/rooms/privateRooms/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
