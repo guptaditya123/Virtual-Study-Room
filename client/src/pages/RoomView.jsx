@@ -15,6 +15,8 @@ const RoomView = () => {
     const fetchTopic = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/rooms/${id}`);
+        console.log("Room data:", res.data);
+        
         setTopic(res.data.topic || "Untitled Room");
       } catch (error) {
         console.error("Failed to load room topic", error);

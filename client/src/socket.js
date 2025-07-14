@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-export  const socket = io("http://localhost:4000", {
+export  const socket = io("https://virtual-study-room-gwjx.onrender.com/api", {
   transports: ["websocket"],
   reconnectionAttempts: 5,
   reconnectionDelay: 1000,
